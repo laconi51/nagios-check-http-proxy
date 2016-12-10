@@ -17,7 +17,7 @@ of `30s`.
 For all the options see `check_http_proxy -h`, displayed below for reference
 
 ```
-Usage: $check_http_proxy [OPTIONS] [-S] -P PROXY -H HOST [-p PORT] [-u URL]
+Usage: $check_http_proxy [OPTIONS] [-S] -P PROXY -U USER_PROXY -M PASSWORD_PROXY -H HOST [-p PORT] [-u URL]
 
 Options:
   -H HOST            host to check
@@ -26,6 +26,8 @@ Options:
   -u URL             url path with leading / [default: /]
 
   -P PROXY           proxy url in hostname:port format
+  -U USER PROXY      user proxy
+  -M PASSWORD PROXY  password proxy
 
   -n TRIES           number of times to try [default: 1]
   -t TIMEOUT         amount of time to wait for a connection in seconds [default: 30]
