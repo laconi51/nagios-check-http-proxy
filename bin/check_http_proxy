@@ -1,6 +1,8 @@
 #!/bin/bash
 #!/usr/bin/env bash
 
+#set -x 
+
 NAME="check_http_proxy"
 VERSION="1.1"
 
