@@ -2,7 +2,7 @@
 #!/usr/bin/env bash
 
 NAME="check_http_proxy"
-VERSION="1.0"
+VERSION="1.1"
 
 function version() {
     echo "${NAME}: ${VERSION}"
@@ -10,7 +10,7 @@ function version() {
 
 function usage() {
     cat <<EOF
-Usage: $check_http_proxy [OPTIONS] [-S] -P PROXY -H HOST [-p PORT] [-u URL]
+Usage: $check_http_proxy [OPTIONS] [-S] -U USER_PROXY -M PASSWD_PROXY -P PROXY -H HOST [-p PORT] [-u URL]
 
 Options:
   -H HOST            host to check
@@ -19,7 +19,8 @@ Options:
   -u URL             url path with leading / [default: /]
 
   -P PROXY           proxy url in hostname:port format
-
+  -U USER PROXY      user proxy
+  -M PASSWORD PROXY  password proxy
   -n TRIES           number of times to try [default: 1]
   -t TIMEOUT         amount of time to wait for a connection in seconds [default: 30]
 EOF
@@ -29,11 +30,13 @@ ssl=""
 host=""
 port=""
 proxy=""
+user=""
+passwd=""
 url="/"
 times=1
 timeout=30
 
-while getopts "hvH:p:Su:P:n:t:" opt; do
+while getopts "hvH:p:Su:P:n:t:U:M:" opt; do
     case $opt in
         h)
             usage
@@ -58,6 +61,12 @@ while getopts "hvH:p:Su:P:n:t:" opt; do
         P)
             proxy=$OPTARG
             ;;
+        U)
+            user=$OPTARG
+            ;;
+        M)
+            passwd=$OPTARG
+            ;;
         n)
             times=$OPTARG
             ;;
@@ -81,6 +90,11 @@ if [ -z "$proxy" ]; then
     echo "Error: proxy is required"
     usage
     exit 11
+fi
+
+if [ -n "$user" ]; then
+    proxy="http://${user}:${passwd}@${proxy}"
+    echo " proxy vaut ${proxy}"
 fi
 
 if [ -z "$ssl" ]; then
@@ -111,3 +125,4 @@ else
   echo "${header} CRITICAL: $((end - start))s - ${url} "
   exit 2
 fi
+
