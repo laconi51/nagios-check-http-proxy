@@ -96,7 +96,6 @@ fi
 
 if [ -n "$user" ]; then
     proxy="http://${user}:${passwd}@${proxy}"
-    echo " proxy vaut ${proxy}"
 fi
 
 if [ -z "$ssl" ]; then
